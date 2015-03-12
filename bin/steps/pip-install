@@ -8,7 +8,7 @@ puts-step "Installing dependencies with pip"
 [ ! "$FRESH_PYTHON" ] && bpwatch start pip_install
 [ "$FRESH_PYTHON" ] && bpwatch start pip_install_first
 
-/app/.heroku/python/bin/pip install -r requirements.txt --exists-action=w --src=./.heroku/src --allow-all-external  | cleanup | indent
+LDFLAGS="-L/app/libcouchbase-2.4.7/build/lib/" /app/.heroku/python/bin/pip install -r requirements.txt  --global-option=build_ext --global-option="-I/app/libcouchbase-2.4.7/include/ -L/app/libcouchbase-2.4.7/build/lib/" --exists-action=w --src=./.heroku/src --allow-all-external | cleanup | indent
 
 # Smart Requirements handling
 cp requirements.txt .heroku/python/requirements-declared.txt
